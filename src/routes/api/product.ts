@@ -1,5 +1,13 @@
 import express, { Request, Response } from 'express';
 import { Product, ProductStore } from '../../models/product';
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+import authorization from '../../utilities/authorization';
+
+dotenv.config()
+const {
+    TOKEN_SECRET
+} = process.env
 
 const store = new ProductStore();
 
@@ -13,14 +21,16 @@ const index = async (req: Request, res: Response) => {
         res.json(err)
     }
 }
+
 const show = async (req: Request, res: Response) => {
+    const id = Number(req.params.id);
+
     try {
-        const id = Number(req.params.id);
         const product = await store.show(id);
 
         if (product) {
             res.json(product);
-        } else{
+        } else {
             res.status(404)
             res.send(`Product with id: ${id} is not found.`)
         }
@@ -29,12 +39,14 @@ const show = async (req: Request, res: Response) => {
         res.json(err)
     }
 }
+
 const create = async (req: Request, res: Response) => {
+    const createdProduct: Product = {
+        name: req.body.name,
+        price: req.body.price
+    }
+
     try {
-        const createdProduct: Product = {
-            name: req.body.name,
-            price: req.body.price
-        }
         const product = await store.create(createdProduct);
 
         res.json(product);
@@ -43,18 +55,20 @@ const create = async (req: Request, res: Response) => {
         res.json(err)
     }
 }
+
 const update = async (req: Request, res: Response) => {
+    const updatedProduct: Product = {
+        id: Number(req.params.id),
+        name: req.body.name,
+        price: req.body.price
+    }
+
     try {
-        const updatedProduct: Product = {
-            id: Number(req.params.id),
-            name: req.body.name,
-            price: req.body.price
-        }
         const product = await store.update(updatedProduct);
 
         if (product) {
             res.json(product);
-        } else{
+        } else {
             res.status(404)
             res.send(`Product with id: ${updatedProduct.id} is not found.`)
         }
@@ -63,14 +77,16 @@ const update = async (req: Request, res: Response) => {
         res.json(err)
     }
 }
+
 const destroy = async (req: Request, res: Response) => {
+    const id = Number(req.params.id);
+
     try {
-        const id = Number(req.params.id);
         const deletedProduct = await store.delete(id);
 
         if (deletedProduct) {
             res.json(deletedProduct);
-        } else{
+        } else {
             res.status(404)
             res.send(`Product with id: ${id} is not found.`)
         }
@@ -85,11 +101,11 @@ const productRoutes = (app: express.Application) => {
 
     app.get('/products/:id', show);
 
-    app.post('/products', create);
+    app.post('/products', authorization, create);
 
-    app.put('/products/:id', update);
+    app.put('/products/:id', authorization, update);
 
-    app.delete('/products/:id', destroy);
+    app.delete('/products/:id', authorization, destroy);
 }
 
 export default productRoutes;

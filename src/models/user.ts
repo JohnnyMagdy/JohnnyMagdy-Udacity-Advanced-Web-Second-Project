@@ -50,6 +50,25 @@ export class UserStore {
         }
     }
 
+    //authenticate
+    async authenticate(firstname: string, password: string): Promise<User | null> {
+        /** I have a though on altering the table to have a username which is a combination of the first
+            and last name and make it unique **/
+        const sql = 'SELECT password FROM users WHERE firstname=($1)' //needs to be unique 
+
+        const conn = await Client.connect();
+        const result = await conn.query(sql, [firstname]);
+
+        if (result.rows.length) {
+            const user = result.rows[0]
+            if (bcrypt.compareSync(password + pepper, user.password)) {
+                return user;
+            }
+        }
+
+        return null;
+    }
+
     //create one
     async create(u: User): Promise<User> {
         try {
@@ -59,7 +78,7 @@ export class UserStore {
                 u.password + pepper,
                 parseInt(saltRounds!)
             );
-            
+
             const conn = await Client.connect();
             const result = await conn.query(sql, [u.firstname, u.lastname, hash]);
             const user = result.rows[0];

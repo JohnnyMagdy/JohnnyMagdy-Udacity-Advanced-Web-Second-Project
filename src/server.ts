@@ -1,9 +1,9 @@
 import bodyParser from "body-parser";
 import express from "express";
 import routes from "./routes";
-import productRoutes from "./routes/api/products";
-import userRoutes from "./routes/api/users";
-import users from "./routes/api/users";
+import productRoutes from "./routes/api/product";
+import userRoutes from "./routes/api/user";
+import users from "./routes/api/user";
 import logger from "./utilities/logger";
 
 const app = express();
