@@ -1,5 +1,8 @@
 # JohnnyMagdy-Udacity-Advanced-Web-Second-Project
 
+## Requirements
+  Install bcrypt, body-parser, db-migrate, db-migrate-pg, dotenv, express, jsonwebtoken, pg, supertest
+
 ## Endpoints
   #### Products
   ```
