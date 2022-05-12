@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express';
 import { User, UserStore } from '../../models/user';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import authorization from '../../utilities/authorization';
 
 dotenv.config();
 
@@ -126,13 +127,13 @@ const destroy = async (req: Request, res: Response) => {
 }
 
 const userRoutes = (app: express.Application) => {
-    app.get('/users', index);
+    app.get('/users', authorization,index);
 
     app.get('/users/authenticate', authenticate)
 
-    app.get('/users/:id', show);
+    app.get('/users/:id', authorization, show);
 
-    app.post('/users', create);
+    app.post('/users', authorization, create);
 
     app.put('/users/:id', update);
 
