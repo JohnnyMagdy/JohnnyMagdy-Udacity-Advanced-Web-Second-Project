@@ -1,9 +1,10 @@
 import bodyParser from "body-parser";
 import express from "express";
 import routes from "./routes";
+import CategoryRoutes from "./routes/api/category";
+import orderRoutes from "./routes/api/order";
 import productRoutes from "./routes/api/product";
 import userRoutes from "./routes/api/user";
-import users from "./routes/api/user";
 import logger from "./utilities/logger";
 
 const app = express();
@@ -18,6 +19,8 @@ app.use('/api', routes);
 
 productRoutes(app);
 userRoutes(app);
+orderRoutes(app);
+CategoryRoutes(app);
 
 app.listen(port, () => {
     console.log(`Server started at localhost:${port}`);

@@ -127,17 +127,17 @@ const destroy = async (req: Request, res: Response) => {
 }
 
 const userRoutes = (app: express.Application) => {
-    app.get('/users', authorization,index);
+    app.get('/users', index);
 
-    app.get('/users/authenticate', authenticate)
+    app.get('/users/authenticate', authenticate); //login
 
     app.get('/users/:id', authorization, show);
 
-    app.post('/users', authorization, create);
+    app.post('/users', create); //signup
 
-    app.put('/users/:id', update);
+    app.put('/users/:id', authorization, update);
 
-    app.delete('/users/:id', destroy);
+    app.delete('/users/:id', authorization, destroy);
 }
 
 export default userRoutes;
