@@ -1,5 +1,6 @@
 # JohnnyMagdy-Udacity-Advanced-Web-Second-Project
-## Port 3000
+## Server Port 3000
+## Database Port 5432
 ## Requirements
   - Install bcrypt, body-parser, db-migrate, db-migrate-pg, dotenv, express, jsonwebtoken, pg, supertest AS dependencies
   - Install eslint, eslint-config-prettier, eslint-plugin-prettier, jasmine, jasmine-spec-reporter, jasmine-ts, nodemon, prettier, ts-node, tsc-watch, typescript AS devDependencies
@@ -23,11 +24,27 @@
   [GET] localhost:3000/orders/:id
   [POST] localhost:3000/orders/:id/products
   ```
+## .env
+```
+  POSTGRES_HOST=127.0.0.1
+  POSTGRES_PORT=5432
+  POSTGRES_DB=storefront
+  POSTGRES_TEST_DB=storefront_test
+  POSTGRES_USER=magical_user
+  POSTGRES_PASSWORD=password123
 
+  ENV=dev
+
+  BCRYPT_PASSWORD=your-secret-password
+  SALT_ROUNDS=10
+
+  TOKEN_SECRET=your-secret-token-password
+  JWT_EXPIRE=1H
+```
 ## Database setup
   **Create user**
   ```
-  CREATE USER magical_user WITH PASSWORD 'pass123';
+  CREATE USER magical_user WITH PASSWORD 'password123';
   ```
   **Create database**
   ```
