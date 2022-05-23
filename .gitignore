@@ -1,6 +1,5 @@
 build/
 node_modules/
 .env
-database.json
 Guide.ipynb
 Requirements.md
