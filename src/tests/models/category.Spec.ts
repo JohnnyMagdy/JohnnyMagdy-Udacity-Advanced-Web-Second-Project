@@ -1,6 +1,8 @@
 import { Category, CategoryStore } from "../../models/category";
+import { Product, ProductStore } from "../../models/product";
 
 const store = new CategoryStore();
+const store2 = new ProductStore();
 
 describe("Category Model", () => {
     it('should have an index method', () => {
@@ -15,8 +17,11 @@ describe("Category Model", () => {
         expect(store.create).toBeDefined();
     });
 
-    it('should have a delete method', () => {
+    it('should have a add category to product method', () => {
         expect(store.addCategoryToProduct).toBeDefined();
+    });
+    it('should have a add category to product method', () => {
+        expect(store.update).toBeDefined();
     });
 
 
@@ -40,17 +45,33 @@ describe("Category Model", () => {
     });
 
     it('add category to product method should return the updated Category', async () => {
+        const prod:Product = {
+            name: 'new',
+            price: 200
+        }
+        await store2.create(prod);
+
         const categoryId = '1';
         const productId = '1';
-        const updatedCategory: Category = {
-            id: 1,
-            name: 'first',
-        }
+
         const result = await store.addCategoryToProduct(categoryId, productId);
+
         expect(result).toEqual({
             id: 1,
-            categoryId: 1,
-            productId: 1
+            category_id: '1',
+            product_id: '1'
+        });
+    });
+
+    it('update method should return an updated category', async () => {
+        const updatedCategory:Category = {
+            name: 'firssst'
+        }
+
+        const result = await store.update(1,updatedCategory);
+        expect(result).toEqual({
+            id: 1,
+            name: 'firssst'
         });
     });
 

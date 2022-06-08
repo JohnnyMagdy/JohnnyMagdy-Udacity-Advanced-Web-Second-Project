@@ -26,13 +26,13 @@ describe("Product Model", () => {
 
     it('create method should return the created product', async () => {
         const createdProduct: Product = {
-            name: 'first',
+            name: 'secound',
             price: 10
         }
         const result = await store.create(createdProduct);
         expect(result).toEqual({
-            id: 1,
-            name: 'first',
+            id: 2,
+            name: 'secound',
             price: 10
         });
     });
@@ -41,39 +41,43 @@ describe("Product Model", () => {
         const result = await store.index();
         expect(result).toEqual([{
             id: 1,
-            name: 'first',
+            name: 'new',
+            price: 200
+        },{
+            id: 2,
+            name: 'secound',
             price: 10
         }]);
     });
 
     it('update method should return the updated product', async () => {
         const updatedProduct: Product = {
-            id: 1,
-            name: 'firssst',
+            id: 2,
+            name: 'seccccccccc',
             price: 1000
         }
         const result = await store.update(updatedProduct);
         expect(result).toEqual({
-            id: 1,
-            name: 'firssst',
+            id: 2,
+            name: 'seccccccccc',
             price: 1000
         });
     });
 
     it('show method should return a product', async () => {
-        const result = await store.show(1);
+        const result = await store.show(2);
         expect(result).toEqual({
-            id: 1,
-            name: 'firssst',
+            id: 2,
+            name: 'seccccccccc',
             price: 1000
         });
     });
 
     it('delete method should delete a product', async () => {
-        const result = await store.delete(1);
+        const result = await store.delete(2);
         expect(result).toEqual({
-            id: 1,
-            name: 'firssst',
+            id: 2,
+            name: 'seccccccccc',
             price: 1000
         });
     });

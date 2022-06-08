@@ -52,16 +52,30 @@ export class CategoryStore {
         }
     }
 
+    //update
+    async update(id: number, updatedCategory:Category): Promise<Category> {
+        try {
+            const sql = 'UPDATE categorys SET name=($1) WHERE id=($2) RETURNING *';
+
+            const conn = await Client.connect();
+            const result = await conn.query(sql, [updatedCategory.name, id]);
+            const Category = result.rows[0];
+            conn.release();
+
+            return Category;
+        } catch (err) {
+            throw new Error(`Cannot create Category: ${name}. Error: ${err}`);
+        }
+    }
+
     async addCategoryToProduct(categoryId: string, productId: string): Promise<object> {
         try {
-            const sql = 'INSERT INTO category_products (category_id, product_id) VALUES ($1, $2) RETURNING *'
+            const sql = 'INSERT INTO product_categorys (category_id, product_id) VALUES ($1, $2) RETURNING *'
             const conn = await Client.connect();
             const result = await conn.query(sql, [categoryId, productId]);
             conn.release();
 
             const Category = result.rows[0];
-
-            console.log(result);
 
             return Category;
         } catch (err) {
